@@ -39,6 +39,7 @@ from .base import Generative
 from .base import HasCompileState
 from .base import HasMemoized
 from .base import Immutable
+from .base import ImmutableColumnCollection
 from .base import prefix_anon_map
 from .coercions import _document_text_coercion
 from .elements import _anonymous_label
@@ -4870,7 +4871,9 @@ class Select(
           constructs as given, as well as ORM-mapped classes.
 
         """
-        if (args and isinstance(args[0], list)) or kw:
+        if (
+            args and isinstance(args[0], (list, ImmutableColumnCollection))
+        ) or kw:
             return cls.create_legacy_select(*args, **kw)
         else:
             return cls._create_future_select(*args)
